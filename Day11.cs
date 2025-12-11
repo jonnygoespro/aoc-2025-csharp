@@ -24,7 +24,7 @@ public class Day11 : BaseDay
     }
   }
 
-  private long Dfs(string current, string target, Dictionary<string, string[]> graph, bool part2, bool seenDac = false, bool seenFft = false)
+  private long Dfs(string current, string target, bool part2, bool seenDac = false, bool seenFft = false)
   {
     if (current == target)
     {
@@ -42,10 +42,9 @@ public class Day11 : BaseDay
     bool nextSeenFft = seenFft || (current == "fft");
 
     long count = 0;
-
-    foreach (var next in graph[current])
+    foreach (var next in nodes[current])
     {
-      count += Dfs(next, target, graph, part2, nextSeenDac, nextSeenFft);
+      count += Dfs(next, target, part2, nextSeenDac, nextSeenFft);
     }
 
     memo[key] = count;
@@ -55,14 +54,14 @@ public class Day11 : BaseDay
   public override ValueTask<string> Solve_1()
   {
     memo = [];
-    long paths = Dfs("you", "out", nodes, false);
+    long paths = Dfs("you", "out", false);
     return new(paths.ToString());
   }
 
   public override ValueTask<string> Solve_2()
   {
     memo = [];
-    long paths = Dfs("svr", "out", nodes, true);
+    long paths = Dfs("svr", "out", true);
     return new(paths.ToString());
   }
 }
